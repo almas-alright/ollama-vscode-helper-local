@@ -1,0 +1,56 @@
+{
+  "name": "local-ollama-helper",
+  "displayName": "Local Ollama Helper",
+  "description": "Ask Ollama questions directly in VS Code",
+  "version": "0.1.0",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:localOllamaHelper.askOllama"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "localOllamaHelper.askOllama",
+        "title": "Ask Ollama"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Local Ollama Helper",
+      "properties": {
+        "localOllamaHelper.apiUrl": {
+          "type": "string",
+          "default": "http://localhost:11434/api/chat",
+          "description": "URL of the Ollama API endpoint"
+        },
+        "localOllamaHelper.model": {
+          "type": "string",
+          "default": "llama3.2:1b",
+          "description": "Ollama model to use for chat"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run esbuild-base -- --minify",
+    "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --platform=node --target=node18",
+    "esbuild": "npm run esbuild-base -- --sourcemap",
+    "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/node": "^18.18.0",
+    "@types/vscode": "^1.85.0",
+    "esbuild": "^0.19.0",
+    "typescript": "^5.2.0"
+  }
+}
